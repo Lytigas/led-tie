@@ -64,7 +64,7 @@ struct PixelData getColor(uint32_t n) {
 uint8_t getLedIndex(uint8_t x, uint8_t y) {
   if (y >= (22 + x) || y >= (26-x)) {//quick bounds check
     return -1;
-  }  
+  }
 
   switch (x) {
     case 0:
@@ -77,7 +77,7 @@ uint8_t getLedIndex(uint8_t x, uint8_t y) {
       return 22 + 23 + 24 + 23 - y - 1;
     case 4:
       return 22 + 23 + 24 + 23 + y;
-    default:  
+    default:
       return -1;
   }
 }
@@ -127,7 +127,7 @@ void pixelChase(struct PixelData* d, int numleds, uint32_t tick, PixelData c, Pi
   }
 
   if (tick % 32 < 16) {
-    frame = (0xff00 ^ used); 
+    frame = (0xff00 ^ used);
   }  else {
     frame = ((used << 8) ^ 0x00ff);
   }
@@ -142,8 +142,8 @@ void pixelChase(struct PixelData* d, int numleds, uint32_t tick, PixelData c, Pi
   }
 }
 
-const uint8_t txt114[] = {0xe, 0x4, 0x4, 0x4, 0x4, 0x0, 0xe, 0x8, 0xc, 0x8, 0xe, 0x0, 0x4, 0xa, 0xe, 0xa, 0xa, 0x0, 0xa, 0xe, 0xa, 0xa, 0xa, 0x0, 0x0, 0x0, 0x0, 0x0, 
-0x0, 0x0, 0x4, 0xc, 0x4, 0x4, 0xe, 0x0, 0x4, 0xc, 0x4, 0x4, 0xe, 0x0, 0xa, 0xa, 
+const uint8_t txt114[] = {0xe, 0x4, 0x4, 0x4, 0x4, 0x0, 0xe, 0x8, 0xc, 0x8, 0xe, 0x0, 0x4, 0xa, 0xe, 0xa, 0xa, 0x0, 0xa, 0xe, 0xa, 0xa, 0xa, 0x0, 0x0, 0x0, 0x0, 0x0,
+0x0, 0x0, 0x4, 0xc, 0x4, 0x4, 0xe, 0x0, 0x4, 0xc, 0x4, 0x4, 0xe, 0x0, 0xa, 0xa,
 0xe, 0x2, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
 };
 
@@ -269,7 +269,7 @@ void tieCascade(struct PixelData* d, int numleds, uint32_t tick, PixelData c1, P
   //some logic for filling in the leds
   for (int i = 0; i <= 22; i++) {
     d[i] = c1;
-  } 
+  }
   for (int i = 23; i <= 43; i++) {
     d[i] = c2;
   }
@@ -297,7 +297,7 @@ void setup() {
 //  Serial.begin(9600);
 //  Serial.print("start");
 
-  
+
   tick = 0;
   //currentMode = 2;
 
@@ -333,7 +333,7 @@ void loop() {
   //if (tick % cycleTicks == 0) {
   //  currentMode = (currentMode + 1) % numModes;
   //}
-  
+
   switch (currentMode) {
     case 0:
       rainbowCycle(data, numleds, tick, 4);
@@ -353,7 +353,7 @@ void loop() {
       break;
     case 5:
       rainbowCascade(data, numleds, tick, 5, 100);
-      break;    
+      break;
     case 6:
       text(data, numleds, rainBuffer, 30, tick/4, PixelData{0,0,255}, PixelData{0,0,0}, -1);
       break;
