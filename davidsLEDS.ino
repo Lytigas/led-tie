@@ -142,28 +142,6 @@ void pixelChase(struct PixelData* d, int numleds, uint32_t tick, PixelData c, Pi
   }
 }
 
-uint8_t* genTextBuffer(char* str, uint8_t* font) {
-  int len = strlen(str);
-  uint8_t* d = malloc(sizeof(uint8_t) * len * 8);
-  //index 0 is first horizontal stripe, with leftmost side being msb.
-
-  //we have a 5*8 font in 1D char array, each char is stored in 8 chars
-  for (uint8_t i = 0; i < len; i++) {
-    for (uint8_t j = 0; j < 8; j++) {
-      d[i*8 + j] = font[ (str[i]*8) + i ];
-     }
-  }
-
-  return d;
-}
-/*
-const uint8_t txt114[] = {0xe, 0x4, 0x4, 0x4, 0x4, 0x0, 0xe, 0x8,
-  0xc, 0x8, 0xe, 0x0, 0x4, 0xa, 0xe, 0xa, 0xa, 0x0, 0xa, 0xe,
-  0xa, 0xa, 0xa, 0x0, 0x4, 0xc, 0x4, 0x4, 0xe, 0x0, 0x4, 0xc, 
-  0x4, 0x4, 0xe, 0x0, 0xa, 0xa, 0xe, 0x2, 0x2, 0x0, 0x0, 0x0, 
-  0x0, 0x0, 0x0, 0x0,
-};
-*/
 const uint8_t txt114[] = {0xe, 0x4, 0x4, 0x4, 0x4, 0x0, 0xe, 0x8, 0xc, 0x8, 0xe, 0x0, 0x4, 0xa, 0xe, 0xa, 0xa, 0x0, 0xa, 0xe, 0xa, 0xa, 0xa, 0x0, 0x0, 0x0, 0x0, 0x0, 
 0x0, 0x0, 0x4, 0xc, 0x4, 0x4, 0xe, 0x0, 0x4, 0xc, 0x4, 0x4, 0xe, 0x0, 0xa, 0xa, 
 0xe, 0x2, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
@@ -205,7 +183,7 @@ void text(struct PixelData* d, int numleds, uint8_t* tb, int bs, uint32_t tick, 
   }
 }
 
-void text(struct PixelData* d, int numleds, uint8_t* tb, int bs, uint32_t tick, PixelData c, PixelData bg, int direction) {
+void text(struct PixelData* d, int numleds, const uint8_t* tb, int bs, uint32_t tick, PixelData c, PixelData bg, int direction) {
   //https://github.com/idispatch/raster-fonts/blob/master/font-5x8.c
   int offset;
 
@@ -236,7 +214,7 @@ void text(struct PixelData* d, int numleds, uint8_t* tb, int bs, uint32_t tick, 
 }
 
 
-void textComposite(struct PixelData* d, int numleds, uint8_t* tb, int bs, uint32_t tick, PixelData c, PixelData bg, int direction, int speed) {
+void textComposite(struct PixelData* d, int numleds, const uint8_t* tb, int bs, uint32_t tick, PixelData c, PixelData bg, int direction, int speed) {
   //https://github.com/idispatch/raster-fonts/blob/master/font-5x8.c
   int offset;
   if (bs > 25) {
@@ -323,7 +301,7 @@ void setup() {
   tick = 0;
   //currentMode = 2;
 
-  data = malloc(numleds * (sizeof(struct PixelData)));
+  data = (PixelData*) (malloc( numleds * (sizeof(struct PixelData)) ));
 
 //  randomSeed(analogRead(0));
 //  currentMode = random(numModes);
