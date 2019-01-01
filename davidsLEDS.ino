@@ -19,7 +19,7 @@ struct PixelData {
 
 
 int cycleTicks = 300;
-uint8_t numModes = 7;
+uint8_t numModes = 8;
 
 
 uint8_t currentMode;
@@ -149,8 +149,13 @@ const uint8_t txt114[] = {0xe, 0x4, 0x4, 0x4, 0x4, 0x0, 0xe, 0x8, 0xc, 0x8, 0xe,
 
 const uint8_t rainBuffer[] = {0x4, 0x14, 0x10, 0x12, 0x12, 0x2, 0x0, 0x4, 0x4, 0x10, 0x10, 0x2, 0x2, 0x12, 0x10, 0x14, 0x4, 0x4, 0x1, 0x9, 0x9, 0x8, 0x0, 0x0, 0x8, 0x9, 0x9, 0x1, 0x1, 0x4};
 
+const uint8_t ny2019Buffer[] = {
+0xe, 0x2, 0xe, 0x8, 0xe, 0x0, 0xe, 0xa, 0xa, 0xa, 0xe, 0x0, 0x4, 0xc, 0x4,
+0x4, 0xe, 0x0, 0xe, 0xa, 0xe, 0x2, 0xe, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
+};
 
-void text(struct PixelData* d, int numleds, uint8_t* tb, int bs, uint32_t tick, PixelData c, PixelData bg, int direction, int speed) {
+
+void text(struct PixelData* d, int numleds, const uint8_t* tb, int bs, uint32_t tick, PixelData c, PixelData bg, int direction, int speed) {
   //https://github.com/idispatch/raster-fonts/blob/master/font-5x8.c
   int offset;
   struct PixelData rain = getColor(tick*speed);
@@ -356,6 +361,10 @@ void loop() {
       break;
     case 6:
       text(data, numleds, rainBuffer, 30, tick/4, PixelData{0,0,255}, PixelData{0,0,0}, -1);
+      break;
+    case 7:
+      rainbowCascade(data, numleds, tick, 5, 100);
+      textComposite(data, numleds, ny2019Buffer, 30, tick/4, PixelData{255,255,255}, PixelData{255,0,255}, 1, 16);
       break;
   }
   updateLEDs(data, numleds);
